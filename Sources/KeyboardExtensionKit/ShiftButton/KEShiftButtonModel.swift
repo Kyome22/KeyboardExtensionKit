@@ -11,23 +11,23 @@ public final class KEShiftButtonModel: ObservableObject {
     private var isTouching: Bool = false
     private var previousDate: Date? = nil
     private let doubleTapThreshold: Double
+    private let updateShiftStateHandler: (KEShiftState) -> Void
 
-    @Binding var needsResetShiftState: Bool
-    @Binding var shiftState: KEShiftState
+    @Published var shiftState: KEShiftState = .off
 
     public init(
         doubleTapThreshold: Double = 0.25,
-        needsResetShiftState: Binding<Bool>,
-        shiftState: Binding<KEShiftState>
+        updateShiftStateHandler: @escaping (KEShiftState) -> Void
     ) {
         self.doubleTapThreshold = doubleTapThreshold
-        _needsResetShiftState = needsResetShiftState
-        _shiftState = shiftState
+        self.updateShiftStateHandler = updateShiftStateHandler
+    }
 
+    func updateShiftState() {
+        updateShiftStateHandler(shiftState)
     }
 
     func resetShiftState() {
-        needsResetShiftState = false
         if shiftState == .on {
             shiftState = .off
         }

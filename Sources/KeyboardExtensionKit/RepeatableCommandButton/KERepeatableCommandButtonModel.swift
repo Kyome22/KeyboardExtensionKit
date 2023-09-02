@@ -1,5 +1,5 @@
 //
-//  KERepeatableButtonModel.swift
+//  KERepeatableCommandButtonModel.swift
 //  KeyboardExtensionKit
 //
 //  Created by ky0me22 on 2023/09/02.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public final class KERepeatableButtonModel: ObservableObject {
+public final class KERepeatableCommandButtonModel: ObservableObject {
     private var timer: Timer?
     private var counter: Int = 0
     private let threshold: Int = 5

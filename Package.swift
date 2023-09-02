@@ -12,10 +12,6 @@ let package = Package(
         .library(
             name: "KeyboardExtensionKit",
             targets: ["KeyboardExtensionKit"]
-        ),
-        .library(
-            name: "Sample",
-            targets: ["Sample"]
         )
     ],
     targets: [
@@ -24,10 +20,6 @@ let package = Package(
         ),
         .testTarget(
             name: "KeyboardExtensionKitTests",
-            dependencies: ["KeyboardExtensionKit"]
-        ),
-        .target(
-            name: "Sample",
             dependencies: ["KeyboardExtensionKit"]
         )
     ]

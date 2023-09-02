@@ -8,30 +8,42 @@
 import SwiftUI
 
 public struct KEShiftButton: View {
-    private let size: CGSize
+    private let width: CGFloat?
+    private let height: CGFloat?
+    private let maxWidth: CGFloat?
+    private let maxHeight: CGFloat?
     private let cornerRadius: CGFloat
     private let foregroundInactiveColor: Color
     private let foregroundActiveColor: Color
     private let backgroundInactiveColor: Color
     private let backgroundActiveColor: Color
 
+    @Binding var needsResetShiftState: Bool
     @StateObject var model: KEShiftButtonModel
 
     public init(
-        size: CGSize = CGSize(width: 40, height: 40),
+        width: CGFloat? = 40,
+        height: CGFloat? = 40,
+        maxWidth: CGFloat? = nil,
+        maxHeight: CGFloat? = nil,
         cornerRadius: CGFloat = 8,
         foregroundInactiveColor: Color = KEColor.shiftForegroundInactive,
         foregroundActiveColor: Color = KEColor.shiftForegroundActive,
         backgroundInactiveColor: Color = KEColor.shiftBackgroundInactive,
         backgroundActiveColor: Color = KEColor.shiftBackgroundActive,
+        needsResetShiftState: Binding<Bool>,
         model: @autoclosure @escaping () -> KEShiftButtonModel
     ) {
-        self.size = size
+        self.width = maxWidth == nil ? width : nil
+        self.height = maxHeight == nil ? height : nil
+        self.maxWidth = maxWidth
+        self.maxHeight = maxHeight
         self.cornerRadius = cornerRadius
         self.foregroundInactiveColor = foregroundInactiveColor
         self.foregroundActiveColor = foregroundActiveColor
         self.backgroundInactiveColor = backgroundInactiveColor
         self.backgroundActiveColor = backgroundActiveColor
+        _needsResetShiftState = needsResetShiftState
         _model = StateObject(wrappedValue: model())
     }
 
@@ -64,13 +76,18 @@ public struct KEShiftButton: View {
 
     public var body: some View {
         Image(systemName: systemName)
-            .frame(width: size.width, height: size.height)
+            .frame(width: width, height: height)
+            .frame(maxWidth: maxWidth, maxHeight: maxHeight)
             .foregroundColor(foregroundColor)
             .background(backgroundColor)
             .cornerRadius(cornerRadius)
-            .onChange(of: model.needsResetShiftState) { newValue in
+            .onChange(of: model.shiftState) { _ in
+                model.updateShiftState()
+            }
+            .onChange(of: needsResetShiftState) { newValue in
                 if newValue {
                     model.resetShiftState()
+                    needsResetShiftState = false
                 }
             }
             .gesture(
@@ -87,7 +104,7 @@ public struct KEShiftButton: View {
 
 struct KEShiftButton_Previews: PreviewProvider {
     static var previews: some View {
-        KEShiftButton(model: KEShiftButtonModel(needsResetShiftState: .constant(false),
-                                                shiftState: .constant(.off)))
+        KEShiftButton(needsResetShiftState: .constant(false),
+                      model: KEShiftButtonModel(updateShiftStateHandler: { _ in }))
     }
 }

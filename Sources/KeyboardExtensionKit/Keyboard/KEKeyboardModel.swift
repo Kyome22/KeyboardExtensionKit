@@ -32,11 +32,11 @@ open class KEKeyboardModel: KEKeyboardModelProtocol {
         operationHandler(.globe(from: from, with: with))
     }
 
-    public func insert(text: String) {
+    open func insert(text: String) {
         operationHandler(.insert(text: text))
     }
 
-    public func delete(length: Int) {
+    open func delete(length: Int) {
         operationHandler(.delete(length: length))
     }
 }

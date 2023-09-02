@@ -8,7 +8,10 @@
 import SwiftUI
 
 public struct KEGlobeButton: View {
-    private let size: CGSize
+    private let width: CGFloat?
+    private let height: CGFloat?
+    private let maxWidth: CGFloat?
+    private let maxHeight: CGFloat?
     private let cornerRadius: CGFloat
     private let foregroundColor: Color
     private let backgroundInactiveColor: Color
@@ -18,14 +21,20 @@ public struct KEGlobeButton: View {
     @State private var isPressed: Bool = false
 
     public init(
-        size: CGSize = CGSize(width: 40, height: 40),
+        width: CGFloat? = 40,
+        height: CGFloat? = 40,
+        maxWidth: CGFloat? = nil,
+        maxHeight: CGFloat? = nil,
         cornerRadius: CGFloat = 8,
         foregroundColor: Color = KEColor.commandForeground,
         backgroundInactiveColor: Color = KEColor.commandBackgroundInactive,
         backgroundActiveColor: Color = KEColor.commandBackgroundActive,
         onGlobeHandler: @escaping (UIView, UIEvent) -> Void
     ) {
-        self.size = size
+        self.width = maxWidth == nil ? width : nil
+        self.height = maxHeight == nil ? height : nil
+        self.maxWidth = maxWidth
+        self.maxHeight = maxHeight
         self.cornerRadius = cornerRadius
         self.foregroundColor = foregroundColor
         self.backgroundInactiveColor = backgroundInactiveColor
@@ -35,7 +44,8 @@ public struct KEGlobeButton: View {
 
     public var body: some View {
         Image(systemName: "globe")
-            .frame(width: size.width, height: size.height)
+            .frame(width: width, height: height)
+            .frame(maxWidth: maxWidth, maxHeight: maxHeight)
             .foregroundColor(foregroundColor)
             .background(isPressed ? backgroundActiveColor : backgroundInactiveColor)
             .cornerRadius(cornerRadius)
