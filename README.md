@@ -46,6 +46,7 @@ You can easily develop a custom keyboard using SwiftUI!
 
 ## Sample
 
-**KeyboardExtensionKitSample**
-
-`KeyboardView`、`KeyboardModel`、`KeyboardViewController`の実装例。
+- KeyboardExtensionKitSample  
+  `KeyboardView`、`KeyboardModel`、`KeyboardViewController`の実装例。
+- [RuledLineKeyboard](https://github.com/Kyome22/RuledLineKeyboard)  
+  罫線専用のソフトウェアキーボードのサンプル。
